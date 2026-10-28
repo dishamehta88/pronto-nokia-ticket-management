@@ -1,0 +1,277 @@
+/* pages.css - shared styles for dashboard, ticket lists, and data master pages */
+
+.page-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.page-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+}
+
+.page-card h2 {
+    margin-bottom: 20px;
+    color: #1f2937;
+}
+
+
+/* Dashboard summary cards */
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.summary-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.summary-card .number {
+    font-size: 38px;
+    font-weight: 800;
+    color: #0b3c88;
+}
+
+.summary-card:nth-child(1) .number {
+    color: #16a34a;
+}
+
+.summary-card:nth-child(2) .number {
+    color: #2563eb;
+}
+
+.summary-card:nth-child(3) .number {
+    color: #d97706;
+}
+
+.summary-card .label {
+    margin-top: 8px;
+    color: #666;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.chart-card {
+    padding: 24px;
+}
+
+.chart-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.chart-card-header h2 {
+    margin: 0;
+}
+
+.chart-caption {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.chart-panel {
+    position: relative;
+    height: 320px;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #4b5563;
+    font-size: 13px;
+}
+
+.filter-field select {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    background: white;
+}
+
+@media(max-width:900px) {
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:800px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Data tables */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid #ececec;
+    font-size: 14px;
+}
+
+table th {
+    color: #666;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+table tr:hover td {
+    background: #f8faff;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-open {
+    background: #fff7e6;
+    color: #b45309;
+}
+
+.status-closed {
+    background: #e7f7ee;
+    color: #15803d;
+}
+
+.action-link {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 600;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.action-link:hover {
+    text-decoration: underline;
+}
+
+.action-link.danger {
+    color: #d32f2f;
+}
+
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    margin-right: 6px;
+    color: #2563eb;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.icon-btn svg {
+    width: 17px;
+    height: 17px;
+    pointer-events: none;
+}
+
+.icon-btn:hover {
+    background: #e8f0fe;
+}
+
+.icon-btn.danger {
+    color: #d32f2f;
+}
+
+.icon-btn.danger:hover {
+    background: #fdeaea;
+}
+
+.empty-state {
+    text-align: center;
+    color: #888;
+    padding: 30px 0;
+}
+
+
+/* Inline add-form used on Data Master pages */
+
+.inline-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.inline-form input {
+    flex: 1;
+    min-width: 160px;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.inline-form input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background: #1d4ed8;
+}
+
+#statusMessage {
+    margin-top: 15px;
+    font-weight: 600;
+}

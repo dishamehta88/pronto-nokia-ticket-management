@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>View / Edit Ticket</title>
+
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="pages.css">
+
+<style>
+
+.page-card{
+    background:white;
+    border-radius:24px;
+    padding:28px;
+    box-shadow:0 20px 60px rgba(15,23,42,0.08);
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+    margin-bottom:24px;
+}
+
+.eyebrow{
+    margin-bottom:8px;
+    color:#0b3c88;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+}
+
+.page-subtitle{
+    color:#64748b;
+    margin-top:6px;
+}
+
+.page-badge{
+    background:#eef3ff;
+    color:#0b3c88;
+    border-radius:999px;
+    padding:10px 14px;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.table-shell{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:14px 12px;
+    text-align:left;
+    border-bottom:1px solid #eef2f7;
+}
+
+th{
+    color:#475569;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+}
+
+tr:hover{
+    background:#f8fafc;
+}
+
+.status-badge{
+    display:inline-block;
+    padding:7px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.status-open{
+    background:#ecfdf3;
+    color:#166534;
+}
+
+.status-closed{
+    background:#fef2f2;
+    color:#b91c1c;
+}
+
+.icon-btn{
+    border:none;
+    background:#eef3ff;
+    color:#0b3c88;
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.icon-btn.danger{
+    background:#fef2f2;
+    color:#b91c1c;
+}
+
+.modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,0.55);
+    align-items:center;
+    justify-content:center;
+    z-index:2000;
+    padding:20px;
+}
+
+.modal-overlay.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:min(920px, 100%);
+    max-height:90vh;
+    overflow-y:auto;
+    border-radius:24px;
+    padding:30px;
+    box-shadow:0 25px 80px rgba(15,23,42,0.22);
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.close-btn{
+    font-size:24px;
+    line-height:1;
+}
+
+.readonly-banner{
+    margin-bottom:16px;
+    padding:12px 14px;
+    background:#fef3c7;
+    color:#92400e;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.summary-grid,
+.form-grid{
+    display:grid;
+    gap:16px;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    margin-bottom:16px;
+}
+
+.summary-card{
+    background:#f8fafc;
+    padding:14px 16px;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+}
+
+.summary-label{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:#64748b;
+    margin-bottom:6px;
+}
+
+.summary-value{
+    font-weight:700;
+    color:#0f172a;
+}
+
+.form-group,
+.textarea-group{
+    margin-bottom:16px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+    color:#334155;
+}
+
+.required{
+    color:#dc2626;
+}
+
+input, select, textarea{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #d1d5db;
+    border-radius:12px;
+    font-size:15px;
+    color:#0f172a;
+    background:white;
+}
+
+textarea{
+    resize:vertical;
+    min-height:110px;
+}
+
+input:disabled, select:disabled, textarea:disabled{
+    background:#f8fafc;
+    color:#64748b;
+    cursor:not-allowed;
+}
+
+.status-message{
+    min-height:22px;
+    margin-top:6px;
+    font-weight:600;
+}
+
+.modal-actions{
+    display:flex;
+    gap:12px;
+    margin-top:10px;
+}
+
+.btn{
+    border:none;
+    background:#0b3c88;
+    color:white;
+    padding:12px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.btn:hover{
+    background:#082d62;
+}
+
+.btn-secondary{
+    background:#e2e8f0;
+    color:#0f172a;
+}
+
+.btn-secondary:hover{
+    background:#cbd5e1;
+}
+
+@media(max-width:800px){
+    .summary-grid,
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .page-header,
+    .modal-header{
+        flex-direction:column;
+    }
+}
+
+</style>
+
+</head>
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <img src="../assets/nokia-logo.png" alt="Nokia" class="logo-img">
+    </div>
+
+    <div class="nav-menu">
+
+        <a href="../index.html" class="nav-item">
+            📊 Dashboard
+        </a>
+
+        <div class="nav-dropdown">
+            <button class="nav-item">
+                🎫 Tickets
+            </button>
+
+            <div class="dropdown-content">
+                <a href="create-ticket.html">Create Ticket</a>
+                <a href="edit-ticket.html">View / Edit Ticket</a>
+                <a href="closed-ticket.html">Closed Tickets</a>
+            </div>
+        </div>
+
+        <div class="nav-dropdown">
+            <button class="nav-item">
+                🗄️ Data Master
+            </button>
+
+            <div class="dropdown-content">
+                <a href="part-code.html">Part Code</a>
+                <a href="rd-owner.html">R&D Owner</a>
+                <a href="rc-owner.html">RC Owner</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="profile-container">
+
+        <button class="profile-btn">
+            👤 User Profile
+        </button>
+
+        <div class="profile-menu">
+
+            <div class="user-info">
+
+                <span class="label">
+                    Logged In As
+                </span>
+
+                <span class="value" id="userEmail">
+                    user@pronto.com
+                </span>
+
+            </div>
+
+            <a href="#" id="logoutBtn" class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="page-container">
+
+    <div class="page-card">
+        <div class="page-header">
+            <div>
+                <p class="eyebrow">Ticket Review</p>
+                <h2>Open Tickets</h2>
+                <p class="page-subtitle">Review repair details, update RCA progress, and close tickets once the investigation is complete.</p>
+            </div>
+            <div class="page-badge">Live workflow</div>
+        </div>
+
+        <div class="table-shell">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pronto No</th>
+                        <th>Country</th>
+                        <th>Part Code</th>
+                        <th>Owner</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ticketsBody">
+                    <tr><td colspan="6" class="empty-state">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Edit modal -->
+<div class="modal-overlay" id="editModal">
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <div>
+                <p class="eyebrow">Edit record</p>
+                <h2>Ticket Analysis Details</h2>
+            </div>
+            <button type="button" class="icon-btn close-btn" id="closeModalBtn" title="Close">×</button>
+        </div>
+
+        <div id="readOnlyBanner" class="readonly-banner" hidden></div>
+
+        <form id="editForm">
+
+            <input type="hidden" id="editId">
+            <input type="hidden" id="editProntoNo">
+
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <p class="summary-label">Pronto Number</p>
+                    <p class="summary-value" id="modalProntoNo">-</p>
+                </div>
+                <div class="summary-card">
+                    <p class="summary-label">Current Status</p>
+                    <p class="summary-value" id="modalStatus">Open</p>
+                </div>
+                <div class="summary-card">
+                    <p class="summary-label">Owner</p>
+                    <p class="summary-value" id="modalOwner">-</p>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="editPriority">Priority <span class="required">*</span></label>
+                    <select id="editPriority" required>
+                        <option value="">Select Priority</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="No Priority">No Priority</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editRcAnalysisSteps">RC Analysis Steps</label>
+                    <select id="editRcAnalysisSteps">
+                        <option>Tracking</option>
+                        <option>Ongoing</option>
+                        <option>Closed</option>
+                        <option>Dispatched to R&D</option>
+                        <option>Hold</option>
+                        <option>Pending</option>
+                        <option>Removed</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="editIntimateDate">Received Date</label>
+                    <input type="date" id="editIntimateDate">
+                </div>
+                <div class="form-group">
+                    <label for="editCountry">Country</label>
+                    <input type="text" id="editCountry">
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="editPartCode">Part Code</label>
+                    <input type="text" id="editPartCode">
+                </div>
+                <div class="form-group">
+                    <label for="editUnitName">Unit Name</label>
+                    <input type="text" id="editUnitName">
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="editOwnerType">Owner Type</label>
+                    <select id="editOwnerType">
+                        <option value="">Select Owner Type</option>
+                        <option>RC Owner</option>
+                        <option>R&D Owner</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editOwnerName">Owner Name</label>
+                    <input type="text" id="editOwnerName">
+                </div>
+            </div>
+
+            <div class="textarea-group">
+                <label for="editFeedbackToRd">Feedback to R&D</label>
+                <textarea id="editFeedbackToRd" rows="4"></textarea>
+            </div>
+
+            <div class="textarea-group">
+                <label for="editRdInstructionsFeedbackToRc">R&D Instructions and Feedback to RC</label>
+                <textarea id="editRdInstructionsFeedbackToRc" rows="4"></textarea>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="editComponentReplaced">Component Replaced</label>
+                    <input type="text" id="editComponentReplaced">
+                </div>
+                <div class="form-group">
+                    <label for="editProntoRcaAnalysisStatus">Pronto RCA Analysis Status</label>
+                    <select id="editProntoRcaAnalysisStatus">
+                        <option>Tracking</option>
+                        <option>Ongoing</option>
+                        <option>Closed</option>
+                        <option>Dispatched to R&D</option>
+                        <option>Hold</option>
+                        <option>Pending</option>
+                        <option>Removed</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editFinalSummary">Final Summary</label>
+                <textarea id="editFinalSummary" rows="4"></textarea>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="editNormalRepairStatus">Normal Repair Status</label>
+                    <select id="editNormalRepairStatus">
+                        <option>Visual Check</option>
+                        <option>Pending</option>
+                        <option>Investigation</option>
+                        <option>De-assembled</option>
+                        <option>Dispatched</option>
+                        <option>Critical repair</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editRcaEndDate">RCA End Date</label>
+                    <input type="date" id="editRcaEndDate">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editAdditionalRemarks">Additional Remarks</label>
+                <textarea id="editAdditionalRemarks" rows="3"></textarea>
+            </div>
+
+            <p id="statusMessage" class="status-message"></p>
+
+            <div class="modal-actions">
+                <button type="submit" class="btn">Save Changes</button>
+                <button type="button" class="btn btn-secondary" id="cancelModalBtn">Cancel</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script src="../script.js"></script>
+<script src="edit-ticket.js"></script>
+
+</body>
+</html>

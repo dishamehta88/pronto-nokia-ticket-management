@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part Code</title>
+
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="pages.css">
+
+</head>
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <img src="../assets/nokia-logo.png" alt="Nokia" class="logo-img">
+    </div>
+
+    <div class="nav-menu">
+
+        <a href="../index.html" class="nav-item">
+            📊 Dashboard
+        </a>
+
+        <div class="nav-dropdown">
+            <button class="nav-item">
+                🎫 Tickets
+            </button>
+
+            <div class="dropdown-content">
+                <a href="create-ticket.html">Create Ticket</a>
+                <a href="edit-ticket.html">View / Edit Ticket</a>
+                <a href="closed-ticket.html">Closed Tickets</a>
+            </div>
+        </div>
+
+        <div class="nav-dropdown">
+            <button class="nav-item">
+                🗄️ Data Master
+            </button>
+
+            <div class="dropdown-content">
+                <a href="part-code.html">Part Code</a>
+                <a href="rd-owner.html">R&D Owner</a>
+                <a href="rc-owner.html">RC Owner</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="profile-container">
+
+        <button class="profile-btn">
+            👤 User Profile
+        </button>
+
+        <div class="profile-menu">
+
+            <div class="user-info">
+
+                <span class="label">
+                    Logged In As
+                </span>
+
+                <span class="value" id="userEmail">
+                    user@pronto.com
+                </span>
+
+            </div>
+
+            <a href="#" id="logoutBtn" class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="page-container">
+
+    <div class="page-card">
+        <h2>Add Part Code</h2>
+
+        <form id="addForm" class="inline-form">
+            <input type="text" id="partCode" placeholder="Part Code (e.g. PC1004)" required>
+            <input type="text" id="unitName" placeholder="Unit Name">
+            <input type="text" id="partGroup" placeholder="Part Group">
+            <input type="text" id="partFamily" placeholder="Part Family">
+            <button type="submit" class="btn">Add</button>
+        </form>
+
+        <p id="statusMessage"></p>
+    </div>
+
+    <div class="page-card">
+        <h2>All Part Codes</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Part Code</th>
+                    <th>Unit Name</th>
+                    <th>Part Group</th>
+                    <th>Part Family</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="listBody">
+                <tr><td colspan="5" class="empty-state">Loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="../script.js"></script>
+<script src="part-code.js"></script>
+
+</body>
+</html>

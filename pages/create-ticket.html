@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Ticket</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+        
+        .ticket-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ticket-card h2 {
+            margin-bottom: 25px;
+            color: #1f2937;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .col {
+            flex: 1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        
+        textarea {
+            resize: vertical;
+        }
+        
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background: #1d4ed8;
+        }
+        
+        #statusMessage {
+            margin-top: 15px;
+            font-weight: 600;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <img src="../assets/nokia-logo.png" alt="Nokia" class="logo-img">
+        </div>
+
+        <div class="nav-menu">
+
+            <a href="../index.html" class="nav-item">
+            📊 Dashboard
+        </a>
+
+            <div class="nav-dropdown">
+                <button class="nav-item">
+                🎫 Tickets
+            </button>
+
+                <div class="dropdown-content">
+                    <a href="create-ticket.html">Create Ticket</a>
+                    <a href="edit-ticket.html">View / Edit Ticket</a>
+                    <a href="closed-ticket.html">Closed Tickets</a>
+                </div>
+            </div>
+
+            <div class="nav-dropdown">
+                <button class="nav-item">
+                🗄️ Data Master
+            </button>
+
+                <div class="dropdown-content">
+                    <a href="part-code.html">Part Code</a>
+                    <a href="rd-owner.html">R&D Owner</a>
+                    <a href="rc-owner.html">RC Owner</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="profile-container">
+
+            <button class="profile-btn">
+            👤 User Profile
+        </button>
+
+            <div class="profile-menu">
+
+                <div class="user-info">
+
+                    <span class="label">
+                    Logged In As
+                </span>
+
+                    <span class="value" id="userEmail">
+                    user@pronto.com
+                </span>
+
+                </div>
+
+                <a href="#" id="logoutBtn" class="logout-btn">
+                Logout
+            </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <div class="ticket-card">
+
+            <h2>Create New Ticket</h2>
+
+            <form id="ticketForm">
+
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Received Date</label>
+                            <input type="date" id="intimateDate">
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Country</label>
+                            <select id="country">
+                            <option value="">Select Country</option>
+                            <option>India</option>
+                            <option>Germany</option>
+                            <option>USA</option>
+                            <option>France</option>
+                            <option>Japan</option>
+                        </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Pronto Number</label>
+                    <input type="text" id="prontoNo" placeholder="Enter Pronto Number">
+                </div>
+
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Unit Part Code</label>
+
+                            <select id="partCode">
+                            <option value="">Select Part Code</option>
+                            <option value="PC1001">PC1001</option>
+                            <option value="PC1002">PC1002</option>
+                            <option value="PC1003">PC1003</option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Unit Name</label>
+                            <input type="text" id="unitName" readonly>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Part Group</label>
+                            <input type="text" id="partGroup" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Part Family</label>
+                            <input type="text" id="partFamily" readonly>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Unit Version</label>
+                            <input type="text" id="unitVersion">
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Unit Serial Number</label>
+                            <input type="text" id="serialNumber">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Field Fault Description</label>
+                    <textarea id="faultDescription" rows="5"></textarea>
+                </div>
+
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>RC Owner</label>
+                            <input type="text" id="rcOwnerName" placeholder="Enter RC Owner Name">
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>R&D Owner</label>
+                            <input type="text" id="rdOwnerName" placeholder="Enter R&D Owner Name">
+                        </div>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn">
+                Create Ticket
+            </button>
+
+                <p id="statusMessage"></p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="../ticket.js"></script>
+
+</body>
+
+</html>

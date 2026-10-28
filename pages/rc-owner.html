@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC Owner</title>
+
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="pages.css">
+
+</head>
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <img src="../assets/nokia-logo.png" alt="Nokia" class="logo-img">
+    </div>
+
+    <div class="nav-menu">
+
+        <a href="../index.html" class="nav-item">
+            📊 Dashboard
+        </a>
+
+        <div class="nav-dropdown">
+            <button class="nav-item">
+                🎫 Tickets
+            </button>
+
+            <div class="dropdown-content">
+                <a href="create-ticket.html">Create Ticket</a>
+                <a href="edit-ticket.html">View / Edit Ticket</a>
+                <a href="closed-ticket.html">Closed Tickets</a>
+            </div>
+        </div>
+
+        <div class="nav-dropdown">
+            <button class="nav-item">
+                🗄️ Data Master
+            </button>
+
+            <div class="dropdown-content">
+                <a href="part-code.html">Part Code</a>
+                <a href="rd-owner.html">R&D Owner</a>
+                <a href="rc-owner.html">RC Owner</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="profile-container">
+
+        <button class="profile-btn">
+            👤 User Profile
+        </button>
+
+        <div class="profile-menu">
+
+            <div class="user-info">
+
+                <span class="label">
+                    Logged In As
+                </span>
+
+                <span class="value" id="userEmail">
+                    user@pronto.com
+                </span>
+
+            </div>
+
+            <a href="#" id="logoutBtn" class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="page-container">
+
+    <div class="page-card">
+        <h2>Add RC Owner</h2>
+
+        <form id="addForm" class="inline-form">
+            <input type="text" id="ownerName" placeholder="Name" required>
+            <input type="email" id="ownerEmail" placeholder="Email">
+            <button type="submit" class="btn">Add</button>
+        </form>
+
+        <p id="statusMessage"></p>
+    </div>
+
+    <div class="page-card">
+        <h2>All RC Owners</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="listBody">
+                <tr><td colspan="3" class="empty-state">Loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="../script.js"></script>
+<script src="owner-shared.js" data-endpoint="rc-owners"></script>
+
+</body>
+</html>

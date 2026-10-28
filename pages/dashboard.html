@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="pages.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <img src="../assets/nokia-logo.png" alt="Nokia" class="logo-img">
+        </div>
+
+        <div class="nav-menu">
+
+            <a href="../index.html" class="nav-item">
+            📊 Dashboard
+        </a>
+
+            <div class="nav-dropdown">
+                <button class="nav-item">
+                🎫 Tickets
+            </button>
+
+                <div class="dropdown-content">
+                    <a href="create-ticket.html">Create Ticket</a>
+                    <a href="edit-ticket.html">View / Edit Ticket</a>
+                    <a href="closed-ticket.html">Closed Tickets</a>
+                </div>
+            </div>
+
+            <div class="nav-dropdown">
+                <button class="nav-item">
+                🗄️ Data Master
+            </button>
+
+                <div class="dropdown-content">
+                    <a href="part-code.html">Part Code</a>
+                    <a href="rd-owner.html">R&D Owner</a>
+                    <a href="rc-owner.html">RC Owner</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="profile-container">
+
+            <button class="profile-btn">
+            👤 User Profile
+        </button>
+
+            <div class="profile-menu">
+
+                <div class="user-info">
+
+                    <span class="label">
+                    Logged In As
+                </span>
+
+                    <span class="value" id="userEmail">
+                    user@pronto.com
+                </span>
+
+                </div>
+
+                <a href="#" id="logoutBtn" class="logout-btn">
+                Logout
+            </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="page-container">
+
+        <div class="summary-grid">
+
+            <div class="summary-card">
+                <div class="number" id="totalCount">-</div>
+                <div class="label">Total Tickets</div>
+            </div>
+
+            <div class="summary-card">
+                <div class="number" id="openCount">-</div>
+                <div class="label">Open Tickets</div>
+            </div>
+
+            <div class="summary-card">
+                <div class="number" id="closedCount">-</div>
+                <div class="label">Closed Tickets</div>
+            </div>
+
+        </div>
+
+        <div class="chart-grid">
+            <div class="page-card chart-card">
+                <div class="chart-card-header">
+                    <h2>Tickets by Status</h2>
+                    <span class="chart-caption">Live from the tickets database</span>
+                </div>
+                <div class="chart-panel">
+                    <canvas id="statusChart"></canvas>
+                    <div id="statusChartEmpty" class="empty-state" style="display:none;">No tickets available</div>
+                </div>
+            </div>
+
+            <div class="page-card chart-card">
+                <div class="chart-card-header">
+                    <h2>Tickets Created</h2>
+                    <div class="filters">
+                        <label class="filter-field">
+                        <span>Year</span>
+                        <select id="yearSelect"></select>
+                    </label>
+                        <label class="filter-field">
+                        <span>Month</span>
+                        <select id="monthSelect"></select>
+                    </label>
+                    </div>
+                </div>
+                <div class="chart-panel">
+                    <canvas id="barChart"></canvas>
+                    <div id="barChartEmpty" class="empty-state" style="display:none;">No tickets available</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-card">
+            <h2>Recent Tickets</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pronto No</th>
+                        <th>Country</th>
+                        <th>Owner</th>
+                        <th>Status</th>
+                        <th>Received Date</th>
+                    </tr>
+                </thead>
+                <tbody id="recentTicketsBody">
+                    <tr>
+                        <td colspan="5" class="empty-state">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="../script.js"></script>
+    <script src="dashboard.js"></script>
+
+</body>
+
+</html>
