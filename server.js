@@ -74,12 +74,19 @@ function serializeTickets(rows) {
 // DATABASE CONNECTION
 // Update these values if your MySQL setup is different.
 // ---------------------------------------------------------
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Disha@123",
-    database: "pronto_db"
-});
+// Use DATABASE_URL if available, otherwise use individual vars
+const dbConfig = process.env.DATABASE_URL || process.env.MYSQL_URL ?
+    process.env.DATABASE_URL || process.env.MYSQL_URL : {
+        host: process.env.DB_HOST || process.env.MYSQLHOST || process.env.MYSQL_HOST,
+        user: process.env.DB_USER || process.env.MYSQLUSER || process.env.MYSQL_USER,
+        password: process.env.DB_PASSWORD || process.env.MYSQLPASSWORD || process.env.MYSQL_PASSWORD,
+        database: process.env.DB_NAME || process.env.MYSQLDATABASE || process.env.MYSQL_DATABASE || 'railway',
+        port: process.env.DB_PORT || process.env.MYSQLPORT || process.env.MYSQL_PORT || 3306
+    };
+
+console.log("DB Config:", typeof dbConfig === 'string' ? 'Using URL' : dbConfig);
+
+const db = mysql.createConnection(dbConfig);
 
 function initializeDatabase() {
     db.connect((err) => {
