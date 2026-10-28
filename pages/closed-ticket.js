@@ -20,7 +20,7 @@ async function loadClosedTickets() {
     const body = document.getElementById("closedTicketsBody");
 
     try {
-        const res = await fetch("http://localhost:3000/api/tickets/closed");
+        const res = await fetch("/api/tickets/closed");
         const tickets = await res.json();
 
         if (!tickets || tickets.length === 0) {

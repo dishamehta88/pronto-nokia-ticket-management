@@ -20,7 +20,7 @@ if (partCodeSelect) {
         }
 
         try {
-            const res = await fetch(`http://localhost:3000/api/part-codes/${code}`);
+            const res = await fetch(`/api/part-codes/${encodeURIComponent(code)}`);
             if (res.ok) {
                 const part = await res.json();
                 document.getElementById("unitName").value = part.unit_name || "";
@@ -81,7 +81,7 @@ if (ticketForm) {
         };
 
         try {
-            const res = await fetch("http://localhost:3000/api/tickets", {
+            const res = await fetch("/api/tickets", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)

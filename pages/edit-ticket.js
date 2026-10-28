@@ -1,10 +1,10 @@
 // edit-ticket.js
 // Lists all open tickets and lets you edit or delete them via a modal popup.
 
-const API = "http://localhost:3000/api/tickets";
+const API = "/api/tickets";
 
 function isAdminUser() {
-    return (localStorage.getItem("loggedInUser") || "").toLowerCase() === "admin@pronto.com";
+    return localStorage.getItem("loggedInUserRole") === "admin";
 }
 
 function formatDateValue(value) {

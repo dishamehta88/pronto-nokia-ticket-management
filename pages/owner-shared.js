@@ -5,7 +5,7 @@
 
 const currentScript = document.currentScript;
 const endpoint = currentScript.getAttribute("data-endpoint"); // "rd-owners" or "rc-owners"
-const API = `http://localhost:3000/api/${endpoint}`;
+const API = `/api/${endpoint}`;
 
 async function loadOwners() {
     const body = document.getElementById("listBody");

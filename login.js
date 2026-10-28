@@ -1,37 +1,59 @@
 const loginForm = document.getElementById("loginForm");
+let setupRequired = false;
 
-const users = [
-    { email: "admin@pronto.com", password: "admin123" },
-    { email: "shubham@pronto.com", password: "shubham123" },
-    { email: "tl@pronto.com", password: "tl123" },
-    { email: "disha@pronto.com", password: "disha123" }
-];
+async function loadSetupState() {
+    const submitButton = loginForm?.querySelector("button[type='submit']");
+    const errorEl = document.getElementById("errorMessage");
+    if (submitButton) submitButton.disabled = true;
+
+    try {
+        const response = await fetch("/api/auth/setup-status");
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Could not check setup status.");
+        setupRequired = result.needsSetup;
+        if (setupRequired) {
+            if (submitButton) submitButton.textContent = "Create Admin Account";
+            if (errorEl) {
+                errorEl.style.color = "#475569";
+                errorEl.textContent = "First-time setup: use the app owner email and create a password with at least 14 characters.";
+            }
+        }
+        if (submitButton) submitButton.disabled = false;
+    } catch (_error) {
+        if (errorEl) errorEl.textContent = "Could not reach the server. Refresh this page and try again.";
+        if (submitButton) submitButton.disabled = false;
+    }
+}
 
 if (loginForm) {
-    loginForm.addEventListener("submit", function(e) {
+    loadSetupState();
+    loginForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const emailEl = document.getElementById("email");
-        const passEl = document.getElementById("password");
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
         const errorEl = document.getElementById("errorMessage");
+        const submitButton = loginForm.querySelector("button[type='submit']");
 
-        const email = (emailEl?.value || "").trim().toLowerCase();
-        const password = (passEl?.value || "").trim();
+        if (submitButton) submitButton.disabled = true;
+        if (errorEl) errorEl.textContent = "";
 
-        console.log("[login] attempt:", email);
+        try {
+            const response = await fetch(setupRequired ? "/api/auth/setup" : "/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+            const result = await response.json();
 
-        const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
-
-        if (user) {
-            localStorage.setItem("loggedInUser", user.email);
-            console.log("[login] success:", user.email);
-            window.location.href = "index.html";
-            return;
+            if (!response.ok) throw new Error(result.error || "Invalid email or password.");
+            localStorage.setItem("loggedInUser", result.email);
+            localStorage.setItem("loggedInUserRole", result.role);
+            window.location.replace("/index.html");
+        } catch (error) {
+            if (errorEl) errorEl.textContent = error.message || "Could not reach the server.";
+        } finally {
+            if (submitButton) submitButton.disabled = false;
         }
-
-        if (errorEl) errorEl.innerText = "Invalid email or password";
-        console.warn("[login] failed for:", email);
     });
-} else {
-    console.warn("[login] loginForm element not found on page.");
 }

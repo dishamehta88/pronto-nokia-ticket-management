@@ -1,8 +1,20 @@
 // Check if user is logged in
 
 if (!localStorage.getItem("loggedInUser")) {
-    window.location.href = "login.html";
+    window.location.replace("/login.html");
 }
+
+const originalFetch = window.fetch.bind(window);
+window.fetch = async function (...args) {
+    const response = await originalFetch(...args);
+    const requestUrl = typeof args[0] === "string" ? args[0] : args[0]?.url || "";
+    if (response.status === 401 && requestUrl.startsWith("/api/") && requestUrl !== "/api/auth/login") {
+        localStorage.removeItem("loggedInUser");
+        localStorage.removeItem("loggedInUserRole");
+        window.location.replace("/login.html");
+    }
+    return response;
+};
 
 // Profile dropdown
 
@@ -31,13 +43,17 @@ userEmail.innerText =
 const logoutBtn =
     document.getElementById("logoutBtn");
 
-logoutBtn.addEventListener("click", function (e) {
+logoutBtn.addEventListener("click", async function (e) {
 
     e.preventDefault();
 
-    localStorage.removeItem("loggedInUser");
-
-    window.location.href = "login.html";
+    try {
+        await originalFetch("/api/auth/logout", { method: "POST" });
+    } finally {
+        localStorage.removeItem("loggedInUser");
+        localStorage.removeItem("loggedInUserRole");
+        window.location.replace("/login.html");
+    }
 
 });
 

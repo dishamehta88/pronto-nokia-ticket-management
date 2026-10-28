@@ -1,7 +1,7 @@
 {
   "name": "pronto-nokia",
   "version": "1.0.0",
-  "description": "",
+  "description": "Pronto Nokia ticket management app",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,19 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skd789/Pronto.git"
+    "url": "https://github.com/dishamehta88/pronto-nokia-ticket-management.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/skd789/Pronto/issues"
+    "url": "https://github.com/dishamehta88/pronto-nokia-ticket-management/issues"
   },
-  "homepage": "https://github.com/skd789/Pronto#readme",
+  "homepage": "https://github.com/dishamehta88/pronto-nokia-ticket-management#readme",
   "dependencies": {
-    "cors": "^2.8.6",
+    "bcryptjs": "^3.0.2",
     "express": "^5.2.1",
-    "mysql2": "^3.22.5"
+    "express-session": "^1.18.2",
+    "pg": "^8.16.3"
   }
 }

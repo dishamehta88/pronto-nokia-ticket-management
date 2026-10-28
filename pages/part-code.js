@@ -1,7 +1,7 @@
 // part-code.js
 // Add new part codes and list/delete existing ones.
 
-const API = "http://localhost:3000/api/part-codes";
+const API = "/api/part-codes";
 
 async function loadPartCodes() {
     const body = document.getElementById("listBody");
